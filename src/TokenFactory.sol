@@ -21,7 +21,14 @@ contract TokenFactory is Ownable {
      * @param contractBytecode The bytecode of the new token
      */
     function deployToken(string memory symbol, bytes memory contractBytecode) public onlyOwner returns (address addr) {
+        // q are you sure you want this to be out of scope ?
+        // q maybe 
+        // @audit-high this won't work on ZKSync 
+        // 
         assembly {
+            // X Large
+            // load the contract bytecode into the memory
+            // create a contract
             addr := create(0, add(contractBytecode, 0x20), mload(contractBytecode))
         }
         s_tokenToAddress[symbol] = addr;
